@@ -6,4 +6,6 @@ seaborn
 flask
 streamlit
 scikit-learn
--e .
+xgboost
+catboost
+# -e .
