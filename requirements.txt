@@ -4,10 +4,10 @@ pandas
 matplotlib
 seaborn
 flask
-streamlit
 scikit-learn
 xgboost
 catboost
 dill
 Flask
+gunicorn
 # -e .
