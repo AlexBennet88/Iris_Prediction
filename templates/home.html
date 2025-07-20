@@ -5,145 +5,347 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Прогноз успеваемости студентов</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+        }
+        
         body {
-            background-color: #f8f9fa;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #6c5ce7, #a29bfe, #fd79a8, #ffeaa7);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
             padding: 20px;
+            color: var(--dark);
+            overflow-x: hidden;
         }
-        .login {
-            max-width: 600px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
+        
+        .login-container {
+            max-width: 700px;
+            margin: 30px auto;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px) rotateX(2deg) rotateY(2deg);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+        
         h1 {
-            color: #4e73df;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--primary);
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 15px;
+            animation: titleGlow 2s infinite alternate;
         }
+        
+        h1:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 10px rgba(108, 92, 231, 0.5); }
+            to { text-shadow: 0 0 20px rgba(108, 92, 231, 0.8), 0 0 30px rgba(253, 121, 168, 0.6); }
+        }
+        
         .form-label {
             font-weight: 600;
-            color: #5a5c69;
-        }
-        .btn-primary {
-            background-color: #4e73df;
-            border: none;
-            padding: 12px 25px;
-            font-weight: 600;
-            width: 100%;
+            color: var(--dark);
+            margin-bottom: 8px;
+            display: block;
             transition: all 0.3s;
         }
-        .btn-primary:hover {
-            background-color: #2e59d9;
+        
+        .form-control {
+            background: rgba(255,255,255,0.8);
+            border: 2px solid rgba(108, 92, 231, 0.3);
+            border-radius: 12px;
+            padding: 12px 20px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
             transform: translateY(-2px);
+            background: white;
         }
-        .result {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 1.2rem;
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 15px 30px;
             font-weight: 600;
-            color: #2e59d9;
-            animation: fadeIn 1s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 50px;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.3);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        
+        .btn-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            transition: all 0.4s;
+            z-index: -1;
         }
-        select, input {
-            transition: all 0.3s;
-            border: 1px solid #d1d3e2;
+        
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(108, 92, 231, 0.4);
         }
-        select:focus, input:focus {
-            border-color: #4e73df;
-            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        
+        .btn-primary:hover:before {
+            left: 0;
+        }
+        
+        .result {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(245, 246, 250, 0.9));
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+            50% { transform: scale(1.01); box-shadow: 0 15px 40px rgba(108, 92, 231, 0.3); }
+            100% { transform: scale(1); box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        }
+        
+        .result h3 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .display-4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--accent);
+            font-weight: 900;
+            font-size: 3.5rem;
+            text-shadow: 0 3px 10px rgba(253, 121, 168, 0.3);
+            animation: bounceIn 1s;
+        }
+        
+        /* Floating elements */
+        .floating {
+            position: absolute;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Custom animations */
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-delay-1 {
+            animation-delay: 0.5s;
+        }
+        
+        .animate-delay-2 {
+            animation-delay: 1s;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="login animate__animated animate__fadeIn">
-       <h1>Прогноз оценки по математике</h1>
-   
-       <form action="{{ url_for('predict_datapoint')}}" method="post">
-        <h2>
-            <legend>Введите данные студента</legend>
-        </h2>
-        <div class="mb-3">
-            <label class="form-label">Пол</label>
-            <select class="form-control" name="gender" required>
-                <option selected disabled value="">Выберите пол</option>
-                <option value="male">Мужской</option>
-                <option value="female">Женский</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Раса/этническая принадлежность</label>
-            <select class="form-control" name="race/ethnicity" required>
-                <option selected disabled value="">Выберите группу</option>
-                <option value="group A">Белый</option>
-                <option value="group B">Латиноамериканец</option>
-                <option value="group C">Афроамериканец</option>
-                <option value="group D">Азиат</option>
-                <option value="group E">Другая</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Образование родителей</label>
-            <select class="form-control" name="parental level of education" required>
-                <option selected disabled value="">Выберите уровень образования</option>
-                <option value="associate's degree">Неоконченное высшее</option>
-                <option value="bachelor's degree">Бакалавр</option>
-                <option value="high school">Средняя школа</option>
-                <option value="master's degree">Магистр</option>
-                <option value="some college">Колледж</option>
-                <option value="some high school">Неоконченная средняя школа</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Тип питания</label>
-            <select class="form-control" name="lunch" required>
-                <option selected disabled value="">Выберите тип питания</option>
-                <option value="free/reduced">Льготное/бесплатное</option>
-                <option value="standard">Стандартное</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Подготовительные курсы</label>
-            <select class="form-control" name="test preparation course" required>
-                <option selected disabled value="">Выберите вариант</option>
-                <option value="none">Не проходил</option>
-                <option value="completed">Завершены</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Балл за чтение (0-100)</label>
-            <input class="form-control" type="number" name="reading score"
-                placeholder="Введите балл за чтение" min='0' max='100' required />
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Балл за письмо (0-100)</label>
-            <input class="form-control" type="number" name="writing score"
-                placeholder="Введите балл за письмо" min='0' max='100' required />
-        </div>
-        <div class="mb-3">
-            <input class="btn btn-primary animate__animated animate__pulse" type="submit" value="Прогнозировать результат" />
-        </div>
-    </form>
+    <!-- Floating background elements -->
+    <div class="floating" style="width: 100px; height: 100px; top: 10%; left: 5%;"></div>
+    <div class="floating" style="width: 150px; height: 150px; top: 70%; left: 80%;"></div>
+    <div class="floating" style="width: 200px; height: 200px; top: 30%; left: 70%;"></div>
     
-    {% if results %}
-    <div class="result animate__animated animate__fadeInUp">
-       <h3>Вы получите балл по математике:</h3>
-       <div class="display-4">{{ results }}</div>
+    <div class="login-container animate__animated animate__fadeIn animate__delay-1s">
+        <h1 class="animate__animated animate__fadeInDown">Прогноз оценки по математике</h1>
+        
+        <form action="{{ url_for('predict_datapoint')}}" method="post">
+            <h2 class="animate__animated animate__fadeIn animate__delay-1s">
+                <legend>Введите данные студента</legend>
+            </h2>
+            
+            <div class="row">
+                <div class="col-md-6 animate__animated animate__fadeInLeft animate__delay-2s">
+                    <div class="mb-4">
+                        <label class="form-label">Пол</label>
+                        <select class="form-control" name="gender" required>
+                            <option selected disabled value="">Выберите пол</option>
+                            <option value="male">Мужской</option>
+                            <option value="female">Женский</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Раса/этническая принадлежность</label>
+                        <select class="form-control" name="race/ethnicity" required>
+                            <option selected disabled value="">Выберите группу</option>
+                            <option value="group A">Белый</option>
+                            <option value="group B">Латиноамериканец</option>
+                            <option value="group C">Афроамериканец</option>
+                            <option value="group D">Азиат</option>
+                            <option value="group E">Другая</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Образование родителей</label>
+                        <select class="form-control" name="parental level of education" required>
+                            <option selected disabled value="">Выберите уровень образования</option>
+                            <option value="associate's degree">Неоконченное высшее</option>
+                            <option value="bachelor's degree">Бакалавр</option>
+                            <option value="high school">Средняя школа</option>
+                            <option value="master's degree">Магистр</option>
+                            <option value="some college">Колледж</option>
+                            <option value="some high school">Неоконченная средняя школа</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 animate__animated animate__fadeInRight animate__delay-2s">
+                    <div class="mb-4">
+                        <label class="form-label">Тип питания</label>
+                        <select class="form-control" name="lunch" required>
+                            <option selected disabled value="">Выберите тип питания</option>
+                            <option value="free/reduced">Льготное/бесплатное</option>
+                            <option value="standard">Стандартное</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Подготовительные курсы</label>
+                        <select class="form-control" name="test preparation course" required>
+                            <option selected disabled value="">Выберите вариант</option>
+                            <option value="none">Не проходил</option>
+                            <option value="completed">Завершены</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Балл за чтение (0-100)</label>
+                        <input class="form-control" type="number" name="reading score"
+                            placeholder="Введите балл за чтение" min='0' max='100' required />
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label">Балл за письмо (0-100)</label>
+                        <input class="form-control" type="number" name="writing score"
+                            placeholder="Введите балл за письмо" min='0' max='100' required />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="animate__animated animate__fadeInUp animate__delay-3s">
+                <button class="btn btn-primary" type="submit">
+                    <span class="animate__animated animate__pulse animate__infinite">Прогнозировать результат</span>
+                </button>
+            </div>
+        </form>
+        
+        {% if results %}
+        <div class="result animate__animated animate__zoomIn animate__delay-4s">
+            <h3>Ваша прогнозируемая оценка:</h3>
+            <div class="display-4">{{ results }}</div>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add more floating elements dynamically
+        document.addEventListener('DOMContentLoaded', function() {
+            for (let i = 0; i < 5; i++) {
+                const size = Math.random() * 100 + 50;
+                const floating = document.createElement('div');
+                floating.className = 'floating animate-float';
+                if (i % 2 === 0) floating.classList.add('animate-delay-1');
+                if (i % 3 === 0) floating.classList.add('animate-delay-2');
+                
+                floating.style.width = `${size}px`;
+                floating.style.height = `${size}px`;
+                floating.style.top = `${Math.random() * 100}%`;
+                floating.style.left = `${Math.random() * 100}%`;
+                floating.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                document.body.appendChild(floating);
+            }
+            
+            // Add hover effect to form elements
+            const formControls = document.querySelectorAll('.form-control');
+            formControls.forEach(control => {
+                control.addEventListener('mouseenter', () => {
+                    control.style.transform = 'translateY(-3px)';
+                });
+                control.addEventListener('mouseleave', () => {
+                    control.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
